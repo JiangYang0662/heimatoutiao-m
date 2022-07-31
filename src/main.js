@@ -9,6 +9,7 @@ import 'vant/lib/index.css'
 import './style/index.less'
 // 导入rem
 import 'amfe-flexible'
+import './utils/day'
 
 Vue.config.productionTip = false
 // 注册使用Vant组件库  Vue的要在import的下面书写！！

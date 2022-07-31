@@ -30,3 +30,10 @@ export const getUserInfo = () => {
         // 优化header
     })
 }
+// 4. 获取用户频道信息
+export const getUserChannels = () => {
+    return request({
+        method: 'GET',
+        url: `/v1_0/user/channels`,
+    })
+}
