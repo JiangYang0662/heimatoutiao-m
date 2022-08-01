@@ -99,9 +99,9 @@ export default {
           with_top: 1,
         });
         // 5. 模拟失败情况
-        if(Math.random() > 0.4) {
-          JSON.parse('dsdsdsd');
-        }
+        // if(Math.random() > 0.4) {
+        //   JSON.parse('dsdsdsd');
+        // }
         console.log(data);
         // 2. 把数据添加到list的最前面
         const { results } = data.data;

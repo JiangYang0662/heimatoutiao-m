@@ -3,7 +3,7 @@
     <!-- 搜索框 -->
     <van-nav-bar class="page-nav-bar" fixed>
       <van-button class="search-btn" slot="title" type="info" size="small" 
-      round icon="search">搜索
+      round icon="search"  to="/search">搜索
       </van-button >
     </van-nav-bar>
 
@@ -22,10 +22,24 @@
       </van-tab>
       <!-- 插槽占位 -->
       <div slot="nav-right" class="placeholder"></div>
-      <div slot="nav-right" class="hamburger-btn">
+      <div slot="nav-right" class="hamburger-btn" @click="isEditChannelShow=true">
         <i class="toutiao toutiao-gengduo"></i>
       </div>
     </van-tabs>
+
+    <!-- 频道弹出层 -->
+    <van-popup v-model="isEditChannelShow" 
+    class="edit-channel-popup"
+    closeable 
+    position="bottom" 
+    :style="{height: '100%' }"
+    >
+    <channel-edit 
+    :user-channels="channels" 
+    :active-index.sync="active"
+    @close-popup="isEditChannelShow = false"
+    ></channel-edit>
+    </van-popup>
 
 
   </div>
@@ -34,20 +48,28 @@
 <script>
 import {getUserChannels} from '@/api/user'
 import ArticleList from '../componets/article-list.vue'
+import ChannelEdit from '../componets/channel-edit.vue'
+import { mapState} from 'vuex'
+import { getItem } from '@/utils/storage'
+
 
 export default {
   name: "HomePage",
   components: {
-    ArticleList
+    ArticleList,
+    ChannelEdit
   },
   props: {},
   data() {
     return {
       active: 0,
-      channels: [] //频道列表
+      channels: [], //频道列表
+      isEditChannelShow: false, //频道弹出层是否显示
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(['user'])
+  },
   watch: {},
   created() {
     this.loadChannels();
@@ -57,10 +79,33 @@ export default {
   },
   methods: {
     // 1. 读取用户的频道信息
+    // async loadChannels() {
+    //   try {
+    //     const {data} = await getUserChannels();
+    //     this.channels = data.data.channels;
+    //   } catch(err) {
+    //     this.$toast('获取频道数据失败');
+    //     console.log('获取频道数据失败',err)
+    //   }
+    // }
     async loadChannels() {
       try {
-        const {data} = await getUserChannels();
-        this.channels = data.data.channels;
+        let channels = [];
+        if(this.user) {
+          // 已登录状态
+          const {data} = await getUserChannels();
+          channels = data.data.channels;
+        } else {
+          const loadChannels = getItem('channels');
+          if(loadChannels) {
+            channels = loadChannels;
+          } else {
+              // 没有本地频道数据就默认请求推荐的频道列表
+             const {data} = await getUserChannels();
+             channels = data.data.channels;
+          }
+        }
+        this.channels = channels;
       } catch(err) {
         this.$toast('获取频道数据失败');
         console.log('获取频道数据失败',err)
@@ -123,6 +168,7 @@ export default {
     }
     .hamburger-btn {
       position: fixed;
+      z-index: 2;
       right: 0;
       display: flex;
       justify-content: center;
@@ -145,6 +191,10 @@ export default {
       }
     }
   }
-
+  // .edit-channel-popup {
+  //   padding-top: 100x;
+  //   box-sizing: border-box;
+  // }
+  
 }
 </style>

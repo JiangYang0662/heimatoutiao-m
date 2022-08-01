@@ -37,3 +37,46 @@ export const getUserChannels = () => {
         url: `/v1_0/user/channels`,
     })
 }
+// 5. 获取所有的频道列表
+export const getAllChannels = () => {
+    return request({
+      method: 'GET',
+      url: '/v1_0/channels'
+    })
+}
+// 6. 添加用户新的频道
+export const addUserChannel = channels => {
+    return request({
+      method: 'PATCH',
+      url: '/v1_0/user/channels',
+      data: {
+        channels
+      }
+    })
+  }
+// 7. 删除频道
+export const deleteUserChannel = channelId => {
+    return request({
+      method: 'DELETE',
+      url: `v1_0/user/channels/${channelId}`
+    })
+}
+
+// 8. 获取联想建议
+export const getSearchSuggestions = q => {
+    return request({
+      method: 'GET',
+      url: '/v1_0/suggestion',
+      params: {
+        q
+      }
+    })
+}
+// 9. 获取搜索结果
+export function getSearch(params) {
+  return request({
+    method: 'GET',
+    url: '/v1_0/search',
+    params
+  })
+}
