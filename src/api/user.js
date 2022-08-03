@@ -16,7 +16,7 @@ export const getSmsCode = mobile => {
         url: `/v1_0/sms/codes/${mobile}`,
     })
 }
-// 3. 获取用户细腻些
+// 3. 获取用户信息
 export const getUserInfo = () => {
     return request({
         method: 'GET',
@@ -189,4 +189,27 @@ export function addComment(data) {
     url: "/v1_0/comments",
     data
   });
+}
+// 18. 获取个人资料
+export const getUserProfile = () => {
+  return request({
+      method: 'GET',
+      url: '/v1_0/user/profile'
+  })
+}
+// 19. 更新用户个人资料--昵称-生日-性别
+export const updateUserProfile = data => {
+  return request({
+      method: 'PATCH',
+      url: '/v1_0/user/profile',
+      data
+  })
+}
+// 20. 更新用户个人资料--图片
+export const updateUserPhoto = data => {
+  return request({
+    method: 'PATCH',
+    url: '/v1_0/user/photo',
+    data
+  })
 }

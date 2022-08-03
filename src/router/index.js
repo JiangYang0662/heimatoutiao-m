@@ -14,7 +14,9 @@ const routes = [
     ]
   },
   {path: '/search', name: 'search', component: () => import('@/views/layout/Search.vue')},
-  {path: '/article/:articleId', name: 'article', component: () => import('@/views/layout/Article.vue'), props: true}
+  {path: '/article/:articleId', name: 'article', component: () => import('@/views/layout/Article.vue'), props: true},
+  {path: '/mine/info', name: 'mine-info', component: () => import('@/views/layout/MineInfo.vue')},
+
 ]
 const router = new VueRouter({
   routes
