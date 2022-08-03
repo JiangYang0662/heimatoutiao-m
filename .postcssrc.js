@@ -16,7 +16,9 @@ module.exports = {
             return file.indexOf('vant') !== -1 ? 37.5 : 75
           },
           // *表示转换所有样式
-        propList: ['*']
+        propList: ['*'],
+        // 排除不要转换的样式资源
+        exclude: 'github-markdown'
       }
     }
   }

@@ -80,3 +80,113 @@ export function getSearch(params) {
     params
   })
 }
+// 10. 根据id获取文章详情信息
+export const getArticleById = articleId => {
+  return request({
+    method: 'GET',
+    url: `/v1_0/articles/${articleId}`
+  })
+}
+// 11. 关注用户
+export const addFollow = userId => {
+  return request({
+    method: 'POST',
+    url: '/v1_0/user/followings',
+    data: {
+      target: userId
+    }
+  })
+}
+// 12. 取消关注
+export const deleteFollow = userId => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/user/followings/${userId}`
+  })
+}
+// 合并一起
+// export const followAuthor = (authorId, isFollow) => {
+//   if (isFollow) {
+//     return request({
+//       url: '/v1_0/user/followings',
+//       method: 'post',
+//       data: { target: authorId }
+//     })
+//   } else {
+//     return request({
+//       url: '/v1_0/user/followings/' + authorId,
+//       method: 'delete'
+//     })
+//   }
+// }
+// 13. 收藏文章、取消
+export const addCollect = target => {
+  return request({
+    method: 'POST',
+    url: '/v1_0/article/collections',
+    data: {
+      target
+    }
+  })
+}
+export const deleteCollect = target => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/article/collections/${target}`
+  })
+}
+//14. 对文章点赞
+export const addLike = articleId => {
+  return request({
+    method: 'POST',
+    url: '/v1_0/article/likings',
+    data: {
+      target: articleId
+    }
+  })
+}
+export const deleteLike = articleId => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/article/likings/${articleId}`
+  })
+}
+// 15. 根据id获取文章的评论列表数据
+// export function getComments(params) {
+//   return request({
+//     method: "GET",
+//     url: "/app/v1_0/comments",
+//     params
+//   });
+// }
+export const getComments = params => {
+  return request({
+    method: "GET",
+    url: "/v1_0/comments",
+    params
+  });
+}
+// 16. 对评论、回复点赞
+export function addCommentLike(commentId) {
+  return request({
+    method: "POST",
+    url: "/v1_0/comment/likings",
+    data: {
+      target: commentId
+    }
+  });
+}
+export function deleteCommentLike(commentId) {
+  return request({
+    method: "DELETE",
+    url: `/v1_0/comment/likings/${commentId}`
+  });
+}
+// 17. 发布评论
+export function addComment(data) {
+  return request({
+    method: "POST",
+    url: "/v1_0/comments",
+    data
+  });
+}
