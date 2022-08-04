@@ -220,3 +220,10 @@ export const updateUserPhoto = data => {
     data
   })
 }
+// 21. 获取指定用户信息
+export const getUserById = target => {
+  return request({
+    method: 'GET',
+    url: `/v1_0/users/${target}`
+  })
+}

@@ -16,6 +16,7 @@ const routes = [
   {path: '/search', name: 'search', component: () => import('@/views/layout/Search.vue')},
   {path: '/article/:articleId', name: 'article', component: () => import('@/views/layout/Article.vue'), props: true},
   {path: '/mine/info', name: 'mine-info', component: () => import('@/views/layout/MineInfo.vue')},
+  {path: '/users/:target', name: 'users', component: () => import('@/views/layout/User.vue'), props:true},
 
 ]
 const router = new VueRouter({

@@ -22,6 +22,7 @@
         <h1 class="article-title">{{ article.title }}</h1>
 
         <!-- 用户信息 -->
+        <!-- 点击头像跳转到用户信息页面 -->
         <van-cell class="user-info" center :border="false">
           <van-image
             class="avatar"
@@ -29,6 +30,7 @@
             round
             fit="cover"
             :src="article.aut_photo"
+            @click="toUser"
           />
           <div slot="title" class="user-name">{{ article.aut_name }}</div>
           <div slot="label" class="publish-date">
@@ -276,9 +278,15 @@ export default {
       // 显示评论回复弹出层
       this.isReplayShow = true;
     },
+    // 跳转到用户界面
+    toUser() {
+      const target =Number(this.article.aut_id);
+
+      this.$router.push(`/users/${target}`);
+    }
     // 5. 更新当前文章的id--为后续回复评论传值
     // setId() {
-    //   this.$store.commit('setArt_id',this.articleId);
+    //   this.$store.commit('setArt_id',this.atrticleId);
     // },
     // 6.
     // removeId() {
@@ -336,6 +344,7 @@ export default {
       .follow-btn {
         width: 170px;
         height: 58px;
+        z-index: 2;
       }
     }
 
