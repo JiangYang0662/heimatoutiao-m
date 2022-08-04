@@ -19,22 +19,30 @@
 
 <script>
 import {addComment} from '@/api/user'
+import {mapState} from 'vuex'
 
 export default {
   name: 'CommentPost',
-  components: {},
+  components: { },
   props: {
+    // 文章的id
     target: {
       type: [Number, String, Object],
       required: true
-    }
+    },
+    // art_id: {
+    //   type: [Number, String, Object],
+    //   required: true
+    // }
   },
   data () {
     return {
       message: ''
     }
   },
-  computed: {},
+  computed: {
+     ...mapState(['art_id'])
+  },
   watch: {},
   created () {},
   mounted () {},
@@ -51,9 +59,9 @@ export default {
       })
       try {
         const {data} = await addComment({
-          target: this.target,
+          target: this.target.toString(),
           content: this.message,
-          art_id: null
+          art_id: this.art_id ? this.art_id : null
         })
         console.log(data);
         this.message = '';
@@ -63,6 +71,10 @@ export default {
         this.$toast.fail('发布评论失败，请重试!');
         console.log('发布评论失败',err);
       }
+      this.setId();
+    },
+     setId() {
+      this.$store.commit('setArt_id',null);
     }
   }
 }

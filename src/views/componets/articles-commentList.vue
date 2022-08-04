@@ -3,9 +3,10 @@
     <van-list
       v-model="loading"
       :finished="finished"
-      finished-text="没有更多了"
+      finished-text="已显示全部评论"
       :error="error"
       error-text="加载失败，点击重试"
+      :immediate-check="false"
       @load="onLoad"
     >
       <!-- <van-cell
@@ -18,7 +19,7 @@
         v-for="(item, index) in list"
         :key="index"
         :comment="item"
-        @click-replay="$emit('reply-click',$event)"
+        @reply-click="$emit('reply-click',$event)"
        />
     </van-list>
 </template>
@@ -38,8 +39,15 @@ export default {
       required: true,
     },
     list: {
-          type: Array,
-          default: () => []
+        type: Array,
+        default: () => []
+    },
+    type: {
+      type: String,
+      validator(value) {
+        return ['a','c'].includes(value)
+      },
+      default: 'a'
     }
   },
   data() {
@@ -55,7 +63,8 @@ export default {
   computed: {},
   watch: {},
   created() {
-      this.onLoad();
+    this.loading = true;
+    this.onLoad();
   },
   mounted() {},
   methods: {
@@ -64,7 +73,7 @@ export default {
       try {
         // 请求获取数据
         const { data } = await getComments({
-          type: "a", //评论类型，a是对文章的评论，c是对评论的回复
+          type: this.type, //评论类型，a是对文章的评论，c是对评论的回复
           source: this.source, //文章的id
           offset: this.offset, //获取评论数据的偏移量，值为评论id，表示从此id的数据向后取。不传值则表示从第一页开始读取数据
           limit: this.limit, //获取评论的数量
@@ -72,7 +81,7 @@ export default {
         // 数据添加
         console.log(data);
         const { results } = data.data;
-        console.log(results);
+        // console.log(results);
         this.list.push(...results)
         this.$emit("onload-success", data.data);
         // 加载状态为false

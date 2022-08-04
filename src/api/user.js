@@ -183,10 +183,17 @@ export function deleteCommentLike(commentId) {
   });
 }
 // 17. 发布评论
-export function addComment(data) {
+// export function addComment(data) {
+//   return request({
+//     method: "POST",
+//     url: "/v1_0/comments",
+//     data
+//   });
+// }
+export const addComment = data => {
   return request({
-    method: "POST",
-    url: "/v1_0/comments",
+    method: 'POST',
+    url: '/v1_0/comments',
     data
-  });
+  })
 }

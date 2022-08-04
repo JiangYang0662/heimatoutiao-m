@@ -14,7 +14,8 @@ export default new Vuex.Store({
     // 本地存储的是字符串，需要json.pares转换为对象
     // user: JSON.parse(window.localStorage.getItem('TOUTIAO_USER'))
     // 为了方便维护token，建议把token对象化
-    user: getItem(Token_key)
+    user: getItem(Token_key),
+    art_id: null
   },
   getters: {
   },
@@ -23,6 +24,9 @@ export default new Vuex.Store({
       state.user = user;
       // window.localStorage.setItem('TOUTIAO_USER',JSON.stringify(user))
       setItem(Token_key,state.user)
+    },
+    setArt_id(state,val) {
+      state.art_id = val;
     }
   },
   actions: {
