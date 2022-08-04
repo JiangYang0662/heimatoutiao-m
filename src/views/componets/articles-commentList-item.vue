@@ -5,7 +5,7 @@
       class="avatar"
       round
       fit="cover"
-      src="https://img.yzcdn.cn/vant/cat.jpeg"
+      :src="comment.aut_photo"
     />
     <div slot="title" class="title-wrap">
       <div class="user-name">{{comment.aut_name}}</div>
@@ -23,7 +23,7 @@
       <p class="comment-content">{{comment.content}}</p>
       <div class="bottom-info">
         <span class="comment-pubdate">{{comment.pubdate | relativeTime}}</span>
-        <van-button class="reply-btn" round @click="$emit('click-replay',comment)">回复<span>{{comment.reply_count}}</span></van-button>
+        <van-button class="reply-btn" round @click="$emit('reply-click',comment)">回复<span>{{comment.reply_count}}</span></van-button>
       </div>
     </div>
   </van-cell>

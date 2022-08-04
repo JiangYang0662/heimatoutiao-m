@@ -129,19 +129,6 @@
             @post-success="onPostSuccess"
           />
         </van-popup>
-        <!-- 评论回复弹层 -->
-        <van-popup
-          v-model="isReplayShow"
-          position="bottom"
-          style="height: 80%"
-        >
-         <comment-reply 
-           v-if="isReplayShow"
-           @click-close="isReplayShow = false" 
-           :comment="currentComment"/>
-        </van-popup>
-
-
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -158,12 +145,27 @@
         <van-button class="retry-btn">点击重试</van-button>
       </div>
     </div>
+
+    <!-- 评论回复弹层 -->
+        <van-popup
+          v-model="isReplayShow"
+          position="bottom"
+          style="height: 100%"
+        >
+         <comment-reply 
+           v-if="isReplayShow"
+           @click-close="isReplayShow = false" 
+           :comment="currentComment"
+           :target="article.art_id"
+           />
+        </van-popup>
   </div>
 </template>
 
 <script>
 import { getArticleById } from "@/api/user";
 import { ImagePreview } from "vant";
+import { mapState} from 'vuex'
 // 封装组件--关注-收藏-点赞--评论
 import ArticleFollowuser from "@/views/componets/articles-followuser.vue";
 import ArticleCollect from "@/views/componets/articles-collect.vue";
@@ -214,7 +216,9 @@ export default {
       currentComment: {} // 点击回复的那个评论对象
     };
   },
-  computed: {},
+  computed: {
+    // ...mapState(['art_id'])
+  },
   watch: {},
   created() {
     this.loadArticle();
@@ -232,6 +236,7 @@ export default {
         setTimeout(() => {
           this.previewImage(); //调用方法
         }, 0);
+        this.setId();
       } catch (err) {
         console.log(err);
         if (err.response && err.response.status === 404) {
@@ -266,10 +271,25 @@ export default {
     },
     // 4. 评论回复弹层
     onReplyClick(comment) {
+      console.log(comment);
       this.currentComment = comment;
       // 显示评论回复弹出层
-      this.isReplayShow = true
-    }
+      this.isReplayShow = true;
+    },
+    // 5. 更新当前文章的id--为后续回复评论传值
+    // setId() {
+    //   this.$store.commit('setArt_id',this.articleId);
+    // },
+    // 6.
+    // removeId() {
+    //   this.$store.commit('setArt_id',null);
+    // },
+    // 7.后退
+    // goback() {
+    //   this.removeId();
+    //   this.$router.back();
+    // }
+
   },
 };
 </script>
